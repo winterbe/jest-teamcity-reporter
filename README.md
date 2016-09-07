@@ -12,6 +12,10 @@
 
 This package will report your JavaScript Jest test results to your Teamcity CI server, so you can see the number of executed tests, test failures and the tests tab right from your Teamcity UI.
 
+<p align="center">
+   <i>Follow on <a href="https://twitter.com/winterbe_">Twitter</a> for Updates</i>
+</p>
+
 ### Usage
 
 First, install the package from NPM: `npm install --save-dev jest-teamcity-reporter`
