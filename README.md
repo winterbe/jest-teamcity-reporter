@@ -47,6 +47,6 @@ Then, in Teamcity create a new Command Line Build Step and run the following com
 
 > Use the command `npm test` on your local machine and Teamcity reporting will be skipped.
 
-### LICENSE
+### License
 
 MIT © [Benjamin Winterberg](https://twitter.com/winterbe_)
