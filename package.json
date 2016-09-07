@@ -1,0 +1,29 @@
+{
+  "name": "jest-teamcity-reporter",
+  "version": "0.1.0",
+  "license": "MIT",
+  "description": "Teamcity Report for Jest test results",
+  "homepage": "https://github.com/winterbe/jest-teamcity-reporter",
+  "author": {
+    "name": "Benjamin Winterberg",
+    "url": "http://winterbe.com"
+  },
+  "keywords": [
+    "jest",
+    "unittest",
+    "test",
+    "teamcity",
+    "reporter",
+    "integration",
+    "ci"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/winterbe/jest-teamcity-reporter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/winterbe/jest-teamcity-reporter/issues"
+  },
+  "main": "index.js",
+  "dependencies": {}
+}
