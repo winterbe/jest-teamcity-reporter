@@ -1,3 +1,4 @@
+var pathSep = require('path').sep;
 function teamcityReporter(result) {
     if (process.argv.filter(it => it === '--teamcity').length === 0) {
         return;
@@ -6,7 +7,7 @@ function teamcityReporter(result) {
 }
 
 function logTestSuite(suite) {
-    const split = suite.testFilePath.split('/');
+    const split = suite.testFilePath.split(pathSep);
     const name = escape(split[split.length - 2] + '/' + split[split.length - 1]);
 
     console.log("##teamcity[testSuiteStarted name='%s']", name);
