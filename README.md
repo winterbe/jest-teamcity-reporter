@@ -24,7 +24,7 @@ The reporter integrates with Jest in form of a [testResultsProcessor](https://fa
 
 ```
 "jest": {
-    "testResultsProcessor": "node_modules/jest-teamcity-reporter"
+    "testResultsProcessor": "jest-teamcity-reporter"
 }
 ```
 
