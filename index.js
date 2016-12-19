@@ -1,9 +1,10 @@
 var pathSep = require('path').sep;
 function teamcityReporter(result) {
     if (process.argv.filter(it => it === '--teamcity').length === 0 && !('TEAMCITY_VERSION' in process.env)) {
-        return;
+        return result;
     }
     result.testResults.forEach(it => logTestSuite(it));
+    return result;
 }
 
 function logTestSuite(suite) {
