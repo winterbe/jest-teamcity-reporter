@@ -10,16 +10,18 @@ function teamcityReporter(result) {
 function logTestSuite(suite) {
     const split = suite.testFilePath.split(pathSep);
     const name = escape(split[split.length - 2] + '/' + split[split.length - 1]);
+    const duration = suite.perfStats.end - suite.perfStats.start;
 
     console.log("##teamcity[testSuiteStarted name='%s']", name);
 
     suite.testResults.forEach(it => logTestResult(suite, it));
 
-    console.log("##teamcity[testSuiteFinished name='%s']", name);
+    console.log("##teamcity[testSuiteFinished name='%s' duration='%s']", name, duration);
 }
 
 function logTestResult(suite, testResult) {
     const name = escape(testResult.title);
+    const duration = testResult.duration;
 
     console.log("##teamcity[testStarted name='%s']", name);
 
@@ -30,7 +32,7 @@ function logTestResult(suite, testResult) {
         console.log("##teamcity[testFailed name='%s' message='FAILED' details='%s']", name, escape(details));
     }
 
-    console.log("##teamcity[testFinished name='%s']", name);
+    console.log("##teamcity[testFinished name='%s' duration='%s']", name, duration);
 }
 
 
