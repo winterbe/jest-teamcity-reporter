@@ -47,6 +47,8 @@ Then, in Teamcity create a new Command Line Build Step and run the following com
 
 > Use the command `npm test` on your local machine and Teamcity reporting will be skipped.
 
+As of version 0.3.0 the evironment variable `TEAMCITY_VERSION` can be used as an replacement for the `--teamcity` flag. You can skip the flag as long as the environment variable is set.
+
 ### License
 
 MIT © [Benjamin Winterberg](https://twitter.com/winterbe_)
