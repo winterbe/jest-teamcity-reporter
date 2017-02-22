@@ -28,26 +28,19 @@ The reporter integrates with Jest in form of a [testResultsProcessor](https://fa
 }
 ```
 
-Since you only want the reporter to work on your Teamcity server and not locally, pass the following option when running Jest from Teamcity:
+The reporter is only active when the environment variable `TEAMCITY_VERSION` is present which should be the case for most common Teamcity server installations. So on your local machine the reporter should be disabled by default. You can test the reporter by temporarily setting the environment variable:
 
-`jest --teamcity`
+`export TEAMCITY_VERSION="your_version"`
 
-E.g. you can add those scripts to your projects `package.json`:
+Then, just use Jest as usual, e.g. put this in your `package.json`
 
 ```
 "scripts": {
-    "test": "jest",
-    "test:teamcity": "jest --teamcity"
+    "test": "jest"
 }
 ```
 
-Then, in Teamcity create a new Command Line Build Step and run the following command:
-
-`npm run test:teamcity`
-
-> Use the command `npm test` on your local machine and Teamcity reporting will be skipped.
-
-As of version 0.3.0 the evironment variable `TEAMCITY_VERSION` can be used as an replacement for the `--teamcity` flag. You can skip the flag as long as the environment variable is set.
+Then, simply run `npm test` locally and from Teamcity.
 
 ### License
 
