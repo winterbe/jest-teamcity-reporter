@@ -42,6 +42,8 @@ Then, just use Jest as usual, e.g. put this in your `package.json`
 
 Then, simply run `npm test` locally and from Teamcity.
 
+> Versions < 0.5.0 also supported activation via cli option `--teamcity` but Jest no longer supports custom options, so this option is no longer available.
+
 ### License
 
 MIT © [Benjamin Winterberg](https://twitter.com/winterbe_)
