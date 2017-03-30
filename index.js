@@ -18,10 +18,12 @@ function logTestSuite(suite) {
 
     if (testResults != null && testResults.length > 0) {
         testResults.forEach(it => logTestResult(suite, it));
-    } else if (suite.failureMessage) {
-        console.log("##teamcity[testStarted name='Execution Error']");
-        console.log("##teamcity[testFailed name='Execution Error' message='FAILED' details='%s']", escape(suite.failureMessage));
-        console.log("##teamcitytestFinished name='Execution Error' duration='0']");
+    }
+
+    if (suite.failureMessage != null && suite.failureMessage.length > 0) {
+        console.log("##teamcity[testStarted name='Test Suite failure']");
+        console.log("##teamcity[testFailed name='Test Suite failure' message='FAILED' details='%s']", escape(suite.failureMessage));
+        console.log("##teamcity[testFinished name='Test Suite failure' duration='0']");
     }
 
     console.log("##teamcity[testSuiteFinished name='%s' duration='%s']", name, duration);
