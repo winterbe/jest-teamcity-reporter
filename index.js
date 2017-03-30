@@ -12,15 +12,16 @@ function logTestSuite(suite) {
     const split = suite.testFilePath.split(pathSep);
     const name = escape(split[split.length - 2] + '/' + split[split.length - 1]);
     const duration = suite.perfStats.end - suite.perfStats.start;
+    const testResults = suite.testResults;
 
     console.log("##teamcity[testSuiteStarted name='%s']", name);
 
-    if (suite.failureMessage) {
+    if (testResults != null && testResults.length > 0) {
+        testResults.forEach(it => logTestResult(suite, it));
+    } else if (suite.failureMessage) {
         console.log("##teamcity[testStarted name='Execution Error']");
         console.log("##teamcity[testFailed name='Execution Error' message='FAILED' details='%s']", escape(suite.failureMessage));
         console.log("##teamcitytestFinished name='Execution Error' duration='0']");
-    } else {
-        suite.testResults.forEach(it => logTestResult(suite, it));
     }
 
     console.log("##teamcity[testSuiteFinished name='%s' duration='%s']", name, duration);
