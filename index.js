@@ -5,12 +5,12 @@ function teamcityReporter(result) {
     const appDir = path.resolve(__dirname).split('/node_modules')[0];
 
     if (TEAMCITY_VERSION in process.env) {
-        result.testResults.forEach(it => logTestSuite(it));
+        result.testResults.forEach(it => logTestSuite(appDir, it));
     }
     return result;
 }
 
-function logTestSuite(suite) {
+function logTestSuite(appDir, suite) {
     const testFilePath = path.relative(appDir, suite.testFilePath);
     const name = escape(testFilePath);
     const duration = suite.perfStats.end - suite.perfStats.start;
