@@ -1,7 +1,9 @@
-var pathSep = require('path').sep;
+var path = require('path');
 var TEAMCITY_VERSION = 'TEAMCITY_VERSION';
 
 function teamcityReporter(result) {
+    const appDir = path.resolve(__dirname).split('/node_modules')[0];
+
     if (TEAMCITY_VERSION in process.env) {
         result.testResults.forEach(it => logTestSuite(it));
     }
@@ -9,8 +11,8 @@ function teamcityReporter(result) {
 }
 
 function logTestSuite(suite) {
-    const split = suite.testFilePath.split(pathSep);
-    const name = escape(split[split.length - 2] + '/' + split[split.length - 1]);
+    const testFilePath = path.relative(appDir, suite.testFilePath);
+    const name = escape(testFilePath);
     const duration = suite.perfStats.end - suite.perfStats.start;
     const testResults = suite.testResults;
 
