@@ -28,7 +28,7 @@ function logTestSuite(suite) {
 }
 
 function logTestResult(suite, testResult) {
-    const name = escape(testResult.title);
+    const name = escape(testResult.fullName);
     const duration = testResult.duration;
 
     console.log("##teamcity[testStarted name='%s']", name);
