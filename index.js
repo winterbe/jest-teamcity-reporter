@@ -40,7 +40,11 @@ function logTestResult(suite, testResult) {
         console.log("##teamcity[testFailed name='%s' message='FAILED' details='%s']", name, escape(details));
     }
 
-    console.log("##teamcity[testFinished name='%s' duration='%s']", name, duration);
+    if (testResult.status === 'pending' || testResult.status === 'skipped') {
+      console.log("##teamcity[testIgnored name='%s' message='%s']", name, testResult.status);
+    }
+
+  console.log("##teamcity[testFinished name='%s' duration='%s']", name, duration);
 }
 
 
