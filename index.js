@@ -4,6 +4,7 @@ var TEAMCITY_VERSION = 'TEAMCITY_VERSION';
 function teamcityReporter(result) {
     if (TEAMCITY_VERSION in process.env) {
         result.testResults.forEach(it => logTestSuite(it));
+        logCoverage(result.coverageMap);
     }
     return result;
 }
@@ -41,10 +42,25 @@ function logTestResult(suite, testResult) {
     }
 
     if (testResult.status === 'pending' || testResult.status === 'skipped') {
-      console.log("##teamcity[testIgnored name='%s' message='%s']", name, testResult.status);
+        console.log("##teamcity[testIgnored name='%s' message='%s']", name, testResult.status);
     }
 
-  console.log("##teamcity[testFinished name='%s' duration='%s']", name, duration);
+    console.log("##teamcity[testFinished name='%s' duration='%s']", name, duration);
+}
+
+function logCoverage(coverageMap) {
+    const coverageSummary = coverageMap.getCoverageSummary().data;
+    const map = new Map([
+        ['L', coverageSummary.lines],
+        ['S', coverageSummary.statements],
+        ['M', coverageSummary.functions],
+        ['R', coverageSummary.branches]
+    ]);
+    map.forEach((metrics, abbreviation) => {
+        console.log("##teamcity[buildStatisticValue key='%s' value='%s']", `CodeCoverageAbs${abbr}TotalJS`, metrics.total);
+        console.log("##teamcity[buildStatisticValue key='%s' value='%s']", `CodeCoverageAbs${abbr}CoveredJS`, metrics.covered);
+        console.log("##teamcity[buildStatisticValue key='%s' value='%s']", `CodeCoveragePercent${abbr}CoveredJS`, metrics.pct);
+    });
 }
 
 
