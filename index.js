@@ -4,6 +4,9 @@ var TEAMCITY_VERSION = 'TEAMCITY_VERSION';
 function teamcityReporter(result) {
     if (TEAMCITY_VERSION in process.env) {
         result.testResults.forEach(it => logTestSuite(it));
+        if (result.coverageMap !== 'undefined') {
+            logCoverage(result.coverageMap);
+        }
     }
     return result;
 }
@@ -41,10 +44,27 @@ function logTestResult(suite, testResult) {
     }
 
     if (testResult.status === 'pending' || testResult.status === 'skipped') {
-      console.log("##teamcity[testIgnored name='%s' message='%s']", name, testResult.status);
+        console.log("##teamcity[testIgnored name='%s' message='%s']", name, testResult.status);
     }
 
-  console.log("##teamcity[testFinished name='%s' duration='%s']", name, duration);
+    console.log("##teamcity[testFinished name='%s' duration='%s']", name, duration);
+}
+
+function logCoverage(coverageMap) {
+    if (typeof coverageMap.getCoverageSummary === 'function') {
+        const coverageSummary = coverageMap.getCoverageSummary().data;
+        const map = new Map([
+            ['Lines', coverageSummary.lines],
+            ['Statements', coverageSummary.statements],
+            ['Functions', coverageSummary.functions],
+            ['Branches', coverageSummary.branches]
+        ]);
+        map.forEach((metrics, key) => {
+            console.log("##teamcity[buildStatisticValue key='%s' value='%s']", `Total Number of JS ${key}`, metrics.total);
+            console.log("##teamcity[buildStatisticValue key='%s' value='%s']", `Covered Number of JS ${key}`, metrics.covered);
+            console.log("##teamcity[buildStatisticValue key='%s' value='%s']", `Covered Percentage of JS ${key}`, metrics.pct);
+        });
+    }
 }
 
 
