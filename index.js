@@ -4,7 +4,7 @@ var TEAMCITY_VERSION = 'TEAMCITY_VERSION';
 function teamcityReporter(result) {
     if (TEAMCITY_VERSION in process.env) {
         result.testResults.forEach(it => logTestSuite(it));
-        if (result.coverageMap !== 'undefined') {
+        if (result.coverageMap !== null) {
             logCoverage(result.coverageMap);
         }
     }
