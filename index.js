@@ -62,7 +62,9 @@ function logCoverage(coverageMap) {
         map.forEach((metrics, key) => {
             const tcKeyDict = {
                 'Lines': 'L',
-                'Functions': 'M'
+                'Functions': 'M',
+                'Branches': 'R',
+                'Statements': 'S'
             };
             
             console.log("##teamcity[buildStatisticValue key='%s' value='%s']", `Total Number of JS ${key}`, metrics.total);
