@@ -60,9 +60,20 @@ function logCoverage(coverageMap) {
             ['Branches', coverageSummary.branches]
         ]);
         map.forEach((metrics, key) => {
+            const tcKeyDict = {
+                'Lines': 'L',
+                'Functions': 'M'
+            };
+            
             console.log("##teamcity[buildStatisticValue key='%s' value='%s']", `Total Number of JS ${key}`, metrics.total);
             console.log("##teamcity[buildStatisticValue key='%s' value='%s']", `Covered Number of JS ${key}`, metrics.covered);
             console.log("##teamcity[buildStatisticValue key='%s' value='%s']", `Covered Percentage of JS ${key}`, metrics.pct);
+            
+            if(tcKeyDict[key]) {
+                const tcKey = tcKeyDict[key];
+                console.log("##teamcity[buildStatisticValue key='%s' value='%s']", `CodeCoverageAbs${tcKey}Total`, metrics.total);
+                console.log("##teamcity[buildStatisticValue key='%s' value='%s']", `CodeCoverageAbs${tcKey}Covered`, metrics.covered);
+            }
         });
     }
 }
