@@ -22,7 +22,7 @@ This package will report your JavaScript Jest test results to your Teamcity CI s
 
 First, install the package from NPM: `npm install --save-dev jest-teamcity-reporter`
 
-The reporter integrates with Jest in form of a [testResultsProcessor](https://facebook.github.io/jest/docs/api.html#testresultsprocessor-string). Put this into your projects `package.json`:
+The reporter integrates with Jest in form of a [testResultsProcessor](https://facebook.github.io/jest/docs/en/configuration.html#testresultsprocessor-string). Put this into your projects `package.json`:
 
 ```
 "jest": {
