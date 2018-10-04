@@ -1,7 +1,7 @@
 var pathSep = require('path').sep;
 var TEAMCITY_VERSION = 'TEAMCITY_VERSION';
 
-function teamcityReporter(result) {
+function logResults(result) {
     if (TEAMCITY_VERSION in process.env) {
         result.testResults.forEach(it => logTestSuite(it));
         if (result.coverageMap != null) {
@@ -98,4 +98,28 @@ function escape(message) {
         .replace(/]/g, '|]');
 }
 
-module.exports = teamcityReporter;
+function JestTeamcityReporter(globalConfig, _options) {
+	/**
+    * If the first parameter has a property named 'testResults',
+    * the script is being run as a 'testResultsProcessor'.
+    * We then need to return the test results as they were received from Jest
+    * https://facebook.github.io/jest/docs/en/configuration.html#testresultsprocessor-string
+    */
+	if (Object.prototype.hasOwnProperty.call(globalConfig, 'testResults')) {
+        // Generate Report
+        logResults(globalConfig);
+		// Return the results as required by Jest
+		return globalConfig;
+	}
+  
+	/**
+    * The default behaviour - run as Custom Reporter, in parallel with Jest.
+    * This should eventually be turned into a proper class (whenever the testResultsProcessor option is phased out)
+    * https://facebook.github.io/jest/docs/en/configuration.html#reporters-array-modulename-modulename-options
+    */
+	this.onRunComplete = (_contexts, testResult) => {
+        logResults(testResult);
+	};
+}
+
+module.exports = JestTeamcityReporter;
