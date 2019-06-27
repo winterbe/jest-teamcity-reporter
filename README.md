@@ -30,6 +30,15 @@ The reporter integrates with Jest in form of a [testResultsProcessor](https://fa
 }
 ```
 
+If you use an external Jest config file like jest.config.js, then you simply need to add the following config to your jest config file:
+```
+module.exports = {
+    ...
+    "testResultsProcessor": "jest-teamcity-reporter",
+    ...
+}
+```
+
 The reporter is only active when the environment variable `TEAMCITY_VERSION` is present which should be the case for most common Teamcity server installations. So on your local machine the reporter should be disabled by default. You can test the reporter by temporarily setting the environment variable:
 
 `export TEAMCITY_VERSION="your_version"`
