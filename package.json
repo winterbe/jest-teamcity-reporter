@@ -1,6 +1,6 @@
 {
   "name": "jest-teamcity-reporter",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "license": "MIT",
   "description": "Teamcity Reporter for Jest Test Results",
   "homepage": "https://github.com/winterbe/jest-teamcity-reporter",
