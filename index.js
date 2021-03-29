@@ -1,4 +1,6 @@
 var pathSep = require('path').sep;
+var joinPaths = require('path').join;
+var fs = require('fs');
 var TEAMCITY_VERSION = 'TEAMCITY_VERSION';
 
 function teamcityReporter(result) {
@@ -13,7 +15,8 @@ function teamcityReporter(result) {
 
 function logTestSuite(suite) {
     const split = suite.testFilePath.split(pathSep);
-    const name = escape(split[split.length - 2] + '/' + split[split.length - 1]);
+    const packageName = getPackageName(suite.testFilePath);
+    const name = packageName + " - " + escape(split[split.length - 2] + '/' + split[split.length - 1]);
     const duration = suite.perfStats.end - suite.perfStats.start;
     const testResults = suite.testResults;
 
@@ -28,6 +31,26 @@ function logTestSuite(suite) {
     }
 
     console.log("##teamcity[testSuiteFinished name='%s' duration='%s']", name, duration);
+}
+
+function getPackageName(testFilePath) {
+    var currentPath = testFilePath;
+
+    while (currentPath.length > 0) {
+        const currentPackageJsonPath = joinPaths(currentPath, "package.json");
+
+        try {
+            const packageJson = require(currentPackageJsonPath);
+
+            return packageJson.name;
+        } catch (e) {
+            const currentPathSegments = currentPath.split(pathSep);
+            currentPathSegments.pop();
+            currentPath = currentPathSegments.join(pathSep);
+        }
+    }
+
+    return "";
 }
 
 function logTestResult(suite, testResult) {
@@ -66,11 +89,11 @@ function logCoverage(coverageMap) {
                 'Branches': 'R',
                 'Statements': 'S'
             };
-            
+
             console.log("##teamcity[buildStatisticValue key='%s' value='%s']", `Total Number of JS ${key}`, metrics.total);
             console.log("##teamcity[buildStatisticValue key='%s' value='%s']", `Covered Number of JS ${key}`, metrics.covered);
             console.log("##teamcity[buildStatisticValue key='%s' value='%s']", `Covered Percentage of JS ${key}`, metrics.pct);
-            
+
             if(tcKeyDict[key]) {
                 const tcKey = tcKeyDict[key];
                 console.log("##teamcity[buildStatisticValue key='%s' value='%s']", `CodeCoverageAbs${tcKey}Total`, metrics.total);
